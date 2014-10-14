@@ -1,0 +1,137 @@
+= render 'style'
+
+div#theme-switch
+	label change theme
+	button#bang 
+		font.highlight2 !
+
+p 
+	| Welcome to the home page of 
+	font.bold alex rowe
+	br
+	br
+	| I am a physicist, programmer, and human being located in 
+	a.highlight1 href='https://goo.gl/maps/McAUB'
+		| Santa Cruz, CA
+	br 
+	br
+	| If you would like to contact me, email me at 
+	a.link href='aprowe@ucsc.edu' 
+		| aprowe@ucsc.edu
+
+br
+
+h3.highlight1 -- Projects --
+p
+	| I have created many projects over the years, but many are difficult to share
+	br
+	| Why don't you check out my 
+	a.highlight1 href="https://github.com/aprowe/ThreeBodyPoincare" senior thesis on github
+	br 
+	br
+	| I've made some wallpapers too:
+	ul.link
+		li 
+			a.bold href='assets/adtime.png' Adventure Time
+		li
+			a.bold href='assets/brix.png' Blue Brix
+		li
+			a.bold href='assets/fabric.png' Wool Appreciation
+		li
+			a.bold href='assets/glitch_thread.png' Glitch Thread
+br
+h3.highlight2 -- Websites I like --
+p Heres some websites that I like
+ul.websites
+	li
+		a.bold href="http://musicforprogramming.net" musicforprogramming.net
+		font.dim  solid ambient mixes that are good for long periods of work
+	li 	
+		a.bold href="http://simpledesktops.com" simpledesktops.com
+		font.dim  quaint collection of simple desktops 
+
+br
+p 
+	| Also, you should   
+	a.bold#comment Leave a comment
+	/ br
+	/ | or, you can  
+	/ a.highlight1#view view comments
+
+.terminal style="display: none"
+
+coffee:		
+	theme = new Theme()
+
+	linkHover('#theme-switch #bang', '#theme-switch label')
+
+	color = ''
+	$('a').hover ->
+		color = $(this).css 'color'
+		$(this).css 'color', ColorLuminance(color, -0.1)
+	, -> 
+		$(this).css 'color', color
+
+	$('#theme-switch #bang').click ->
+		theme.nextTheme()
+
+	$('#comment').click ->
+		$('.terminal').show()
+		scroll()
+		$('.terminal').terminal('comment').resume()
+		$('.terminal').terminal('comment').focus()
+
+
+	scroll = ->
+		  $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+		  return false;
+
+	level = 0
+	name = ''
+	comment = ''
+	$('.terminal').terminal (command,terminal) -> 
+			scroll()
+
+			if command != '' and level == 0
+				terminal.set_prompt 'comment: '
+				level++;
+				name = command;
+				return
+			else if level == 0
+				terminal.error('error: name required')
+				return
+
+			if command != '' and level == 1
+				level = 0
+				terminal.echo('submitting...')
+				terminal.pause();
+				terminal.set_prompt 'name: '
+				comment = command;
+				submitComment(name, comment)
+				return
+
+			else if level == 1
+				terminal.error('error: comment body required')
+				return
+		, 
+		greetings: ''
+		# height: 200
+		name: 'comment'
+		prompt: 'name: '
+
+
+		submitComment = (name, comment) ->
+			$.ajax 
+				url: 'comment'
+				data: 
+					name: name
+					comment: comment
+				success: (data)->
+					$('.terminal').terminal('comment').echo('[[;;;highlight1]'+data+']')
+				error: (data)->
+					$('.terminal').terminal('comment').error(data)
+				complete: (data)->
+					$('.terminal').terminal('comment').echo('process complete')
+					$('.terminal').terminal('comment').echo('')
+
+
