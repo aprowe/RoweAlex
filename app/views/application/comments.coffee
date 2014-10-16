@@ -12,9 +12,11 @@ class @RoweTerm
 		@terminal = $(@element).terminal()
 
 
-	run: (@program) ->
+	run: (programName) ->
+		@program = eval('new '+programName)
 		@program.init(@terminal)
 		@terminal.resume()
+
 
 	scroll: ->
 		$("html, body").animate({ scrollTop: $(document).height() }, "fast");
@@ -26,7 +28,7 @@ class Program
 	run: (cmd, term) ->
 		term.
 
-class @PostComment extends Program
+class @Poster extends Program
 
 	init: (@term) ->
 		@term.set_prompt 'name: '

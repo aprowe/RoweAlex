@@ -1,0 +1,22 @@
+doctype html
+html
+	head
+		title RoweAlex
+		= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+		= javascript_include_tag 'application', 'data-turbolinks-track' => true
+		= csrf_meta_tags
+		= favicon_link_tag 'favicon.ico'
+
+		meta name="description" content="Check out my projects, leave a comment, and enjoy!" 
+		meta property="og:title" content="Alex Rowe's Home" 
+		meta property="og:type" content="Portfolio" 
+		meta property="og:url" content="http://www.rowealex.com" 
+		meta property="og:image" content="assets/adtimelogo.png" 
+		/ meta property="og:description" content="" 
+
+
+	body
+		== yield
+
+
+

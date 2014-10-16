@@ -54,9 +54,9 @@ br
 p 
 	| Also, you should   
 	a.bold#comment Leave a comment
-	/ br
-	/ | or, you can  
-	/ a.highlight1#view view comments
+	br
+	| or, you can  
+	a.highlight1#view view comments
 
 .terminal style="display: none"
 
@@ -75,63 +75,15 @@ coffee:
 	$('#theme-switch #bang').click ->
 		theme.nextTheme()
 
+	rowe = new RoweTerm('.terminal')
+
+
 	$('#comment').click ->
 		$('.terminal').show()
-		scroll()
-		$('.terminal').terminal('comment').resume()
-		$('.terminal').terminal('comment').focus()
+		rowe.run('Poster')
 
-
-	scroll = ->
-		  $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-		  return false;
-
-	level = 0
-	name = ''
-	comment = ''
-	$('.terminal').terminal (command,terminal) -> 
-			scroll()
-
-			if command != '' and level == 0
-				terminal.set_prompt 'comment: '
-				level++;
-				name = command;
-				return
-			else if level == 0
-				terminal.error('error: name required')
-				return
-
-			if command != '' and level == 1
-				level = 0
-				terminal.echo('submitting...')
-				terminal.pause();
-				terminal.set_prompt 'name: '
-				comment = command;
-				submitComment(name, comment)
-				return
-
-			else if level == 1
-				terminal.error('error: comment body required')
-				return
-		, 
-		greetings: ''
-		# height: 200
-		name: 'comment'
-		prompt: 'name: '
-
-
-		submitComment = (name, comment) ->
-			$.ajax 
-				url: 'comment'
-				data: 
-					name: name
-					comment: comment
-				success: (data)->
-					$('.terminal').terminal('comment').echo('[[;;;highlight1]'+data+']')
-				error: (data)->
-					$('.terminal').terminal('comment').error(data)
-				complete: (data)->
-					$('.terminal').terminal('comment').echo('process complete')
-					$('.terminal').terminal('comment').echo('')
+	$('#view').click ->
+		$('.terminal').show()
+		rowe.run('Viewer')
 
 
