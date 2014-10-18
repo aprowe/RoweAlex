@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   def comment
   	Comments.create name: params[:name], body: params[:comment]
-  	
+  	@ip = request.remote_ip
   	render text: 'success. Thanks!'
   end
 

@@ -117,7 +117,11 @@ class Viewer extends Program
 		# str = comment.id+' '
 		str = '  [[;;;highlight1]'+comment.name+']: '
 		str += '[[;;;bold]'+comment.body+'] '
+
+		date = new Date(comment.created_at);
+		str += "[[;;;dim] #{moment(date).fromNow()}] "
 		@term.echo str
+
 
 	run: (cmd,term)->
 		if cmd == 'DELETE ALL COMMENTS PLEASE'
