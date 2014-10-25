@@ -38,4 +38,7 @@ class ApplicationController < ActionController::Base
   	# comments = Comments.find
   	render json: json
   end
+
+  
+  
 end

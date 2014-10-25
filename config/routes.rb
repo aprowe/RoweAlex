@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'application#index'
   get 'comment' => 'application#comment'
+  get 'resume' => 'application#resume'
   get 'viewComments' => 'application#viewComments'
   get 'deleteComments' => 'application#deleteComments'
   # Example of regular route:
