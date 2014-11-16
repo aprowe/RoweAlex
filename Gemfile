@@ -30,6 +30,7 @@ gem 'slim-rails'
 
 gem 'momentjs-rails'
 
+gem 'font-awesome-rails'
 gem 'font-awesome-sass'
 
 # Use ActiveModel has_secure_password
